@@ -1,0 +1,12 @@
+@mixin borders($width, $style, $left-top-color, $right-bottom-color) {
+  border-width: $width;
+  border-style: $style;
+  border-left-color: $left-top-color;
+  border-top-color: $left-top-color;
+  border-right-color: $right-bottom-color;
+  border-bottom-color: $right-bottom-color;
+}
+
+@mixin button {
+
+}
