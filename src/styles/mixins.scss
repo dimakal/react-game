@@ -1,4 +1,4 @@
-@mixin borders($width, $style, $left-top-color, $right-bottom-color) {
+@mixin borders($width: 4px, $style: solid, $left-top-color: white, $right-bottom-color: #7b7b7b) {
   border-width: $width;
   border-style: $style;
   border-left-color: $left-top-color;
