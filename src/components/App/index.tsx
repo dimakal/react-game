@@ -4,12 +4,14 @@ import NumberDisplay from "../NumberDisplay";
 import {generateCells} from "../../utils";
 import Button from "../Button";
 import {Cell, CellState, Face} from '../../types/index'
+import {NUMBER_OF_BOMBS} from "../../constants";
 
 const Minesweeper: React.FC = () => {
     const [cells, setCells] = useState<Cell[][]>(generateCells())
     const [face, setFace] = useState<Face>(Face.smile)
     const [time, setTime] = useState<number>(0)
     const [started, setStarted] = useState<boolean>(false)
+    const [bombCounter, setBombCounter] = useState<number>(NUMBER_OF_BOMBS)
 
     useEffect(() => {
         const handleMouseDown = (): void => {
@@ -30,7 +32,7 @@ const Minesweeper: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        if (started) {
+        if (started && time < 999) {
             const timer = setInterval(() => {
                 setTime(time + 1)
             }, 1000)
@@ -63,6 +65,10 @@ const Minesweeper: React.FC = () => {
         } else if (currentCell.state === CellState.open) {
             currentCells[rowParam][colParam].state = CellState.flagged
             setCells(currentCells)
+            setBombCounter(bombCounter - 1)
+        } else if (currentCell.state === CellState.flagged) {
+            currentCells[rowParam][colParam].state = CellState.open
+            setBombCounter(bombCounter + 1)
         }
     }
 
@@ -71,6 +77,7 @@ const Minesweeper: React.FC = () => {
             setStarted(false)
             setTime(0)
             setCells(generateCells())
+            setBombCounter(NUMBER_OF_BOMBS)
         }
     }
 
@@ -91,7 +98,7 @@ const Minesweeper: React.FC = () => {
     return (
         <div className={"Minesweeper"}>
             <div className={"header"}>
-                <NumberDisplay value={0}/>
+                <NumberDisplay value={bombCounter}/>
                 <div className={'face'} onClick={handleFaceClick}>
                     <span> {face} </span>
                 </div>
