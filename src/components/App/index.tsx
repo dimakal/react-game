@@ -3,7 +3,7 @@ import './App.scss'
 import NumberDisplay from "../NumberDisplay";
 import {generateCells} from "../../utils";
 import Button from "../Button";
-import {Cell, Face} from '../../types/index'
+import {Cell, CellState, Face} from '../../types/index'
 
 const Minesweeper: React.FC = () => {
     const [cells, setCells] = useState<Cell[][]>(generateCells())
@@ -48,6 +48,24 @@ const Minesweeper: React.FC = () => {
         }
     }
 
+    const handleCellContext = (rowParam: number, colParam: number) => (e: React.MouseEvent): void => {
+        e.preventDefault()
+
+        if (!started) {
+            return
+        }
+
+        const currentCells = cells.slice()
+        const currentCell = currentCells[rowParam][colParam]
+
+        if (currentCell.state === CellState.visible) {
+            return;
+        } else if (currentCell.state === CellState.open) {
+            currentCells[rowParam][colParam].state = CellState.flagged
+            setCells(currentCells)
+        }
+    }
+
     const handleFaceClick = (): void => {
         if (started) {
             setStarted(false)
@@ -65,6 +83,7 @@ const Minesweeper: React.FC = () => {
                 state={cell.state}
                 value={cell.value}
                 onClick={handleCellClick}
+                onContext={handleCellContext}
             />
         )))
     }
