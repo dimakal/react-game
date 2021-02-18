@@ -9,10 +9,15 @@
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  cursor: pointer;
 
   &.visible {
     border-width: 1px;
     border-color: #7b7b7b;
+  }
+
+  &.flagged:active {
+    @include borders;
   }
 
   &.value-1 {

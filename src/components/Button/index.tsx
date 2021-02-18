@@ -28,7 +28,8 @@ const Button: React.FC<ButtonProps> = ({row, col, state, value, onClick, onConte
 
     return (
         <div
-            className={`button ${state == CellState.visible ? 'visible' : '' } value-${value}`}
+            className={`button ${state == CellState.visible ? 'visible' : '' } value-${value} 
+                ${state == CellState.flagged ? 'flagged' : '' }`}
             onClick={onClick(row, col)}
             onContextMenu={onContext(row, col)}
         >
