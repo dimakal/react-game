@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import './App.scss'
 import NumberDisplay from "../NumberDisplay";
-import {generateCells} from "../../utils";
+import {generateCells, openMultipleCells} from "../../utils";
 import Button from "../Button";
-import {Cell, CellState, Face} from '../../types/index'
+import {Cell, CellState, CellValue, Face} from '../../types/index'
 import {NUMBER_OF_BOMBS} from "../../constants";
 
 const Minesweeper: React.FC = () => {
@@ -43,10 +43,27 @@ const Minesweeper: React.FC = () => {
         }
     }, [started, time])
 
-    const handleCellClick = (colParam: number, rowParam: number) => (): void => {
+    const handleCellClick = (rowParam: number, colParam: number) => (): void => {
         // start the game
         if (!started) {
             setStarted(true)
+        }
+
+        let newCells = cells.slice()
+        const currentCell = newCells[rowParam][colParam]
+
+        if ([CellState.flagged, CellState.visible].includes(currentCell.state)) {
+            return;
+        }
+
+        if (currentCell.value === CellValue.bomb) {
+            // TODO
+        } else if (currentCell.value === CellValue.none) {
+            newCells = openMultipleCells(newCells, rowParam, colParam)
+            setCells(newCells)
+        } else {
+            newCells[rowParam][colParam].state = CellState.visible
+            setCells(newCells)
         }
     }
 
@@ -67,8 +84,9 @@ const Minesweeper: React.FC = () => {
             setCells(currentCells)
             setBombCounter(bombCounter - 1)
         } else if (currentCell.state === CellState.flagged) {
-            currentCells[rowParam][colParam].state = CellState.open
-            setBombCounter(bombCounter + 1)
+            currentCells[rowParam][colParam].state = CellState.open;
+            setCells(currentCells);
+            setBombCounter(bombCounter + 1);
         }
     }
 

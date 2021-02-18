@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({row, col, state, value, onClick, onConte
 
             return value
         } else if (state === CellState.flagged) {
-            return <span> ⛳ </span>
+            return <span> 🚩 </span>
         }
     }
 
