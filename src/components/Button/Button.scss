@@ -20,6 +20,10 @@
     @include borders;
   }
 
+  &.red {
+    background: red;
+  }
+
   &.value-1 {
     color: blue;
   }
