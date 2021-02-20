@@ -144,8 +144,12 @@ const Minesweeper: React.FC = () => {
         setWon(false)
     }
 
-    const toggleMouseClick = () => (e: React.MouseEvent): void => { // попробовать одну функцию
-        if (won || lost) return
+    const toggleMouseClick = () => (e: React.MouseEvent): void => {
+        if (won || lost) {
+            if (e.currentTarget.className !== "face") {
+                return
+            }
+        }
 
         if (e.type === 'mousedown') {
             setFace(Face.oh)
@@ -189,7 +193,7 @@ const Minesweeper: React.FC = () => {
         <div className={"Minesweeper"}>
             <div className={"header"}>
                 <NumberDisplay value={bombCounter}/>
-                <div className={'face'} onClick={handleFaceClick}>
+                <div className={'face'} onClick={handleFaceClick} onMouseDown={toggleMouseClick()}>
                     <span> {face} </span>
                 </div>
                 <NumberDisplay value={time}/>
