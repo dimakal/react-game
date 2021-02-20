@@ -8,9 +8,9 @@ interface ButtonProps {
     state: CellState
     value: CellValue,
     red?: boolean
-    onClick(rowParam: number, colParam: number): (...args: any) => void
-    onContext(rowParam: number, colParam: number): (...args: any) => void
-    toggleMouseClick(): (...args: any) => void
+    onClick: (rowParam: number, colParam: number) => (...args: any) => void
+    onContext: (rowParam: number, colParam: number) => (...args: any) => void
+    toggleMouseClick: () => (...args: any) => void
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -39,11 +39,12 @@ const Button: React.FC<ButtonProps> = ({
     }
 
     return (
-        <div className={`button ${state == CellState.visible ? 'visible' : ''} value-${value} ${state == CellState.flagged ? 'flagged' : ''} ${red ? 'red' : ''} `}
+        <div
+            className={`button ${state == CellState.visible ? 'visible' : ''} value-${value} ${state == CellState.flagged ? 'flagged' : ''} ${red ? 'red' : ''} `}
             onClick={onClick(row, col)}
             onContextMenu={onContext(row, col)}
-             onMouseDown={toggleMouseClick()}
-             onMouseUp={toggleMouseClick()}
+            onMouseDown={toggleMouseClick()}
+            onMouseUp={toggleMouseClick()}
         >
             {renderContent()}
         </div>
