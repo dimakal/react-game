@@ -16,24 +16,6 @@ const Minesweeper: React.FC = () => {
     const [won, setWon] = useState<boolean>(false)
 
     useEffect(() => {
-        const handleMouseDown = (): void => {
-            setFace(Face.oh)
-        }
-
-        const handleMouseUp = (): void => {
-            setFace(Face.smile)
-        }
-
-        window.addEventListener('mousedown', handleMouseDown)
-        window.addEventListener('mouseup', handleMouseUp)
-
-        return () => {
-            window.removeEventListener('mouseup', handleMouseUp)
-            window.removeEventListener('mousedown', handleMouseDown)
-        }
-    }, [])
-
-    useEffect(() => {
         if (started && time < 999) {
             const timer = setInterval(() => {
                 setTime(time + 1)
@@ -157,8 +139,19 @@ const Minesweeper: React.FC = () => {
         setTime(0)
         setCells(generateCells())
         setBombCounter(NUMBER_OF_BOMBS)
+        setFace(Face.smile)
         setLost(false)
         setWon(false)
+    }
+
+    const toggleMouseClick = () => (e: React.MouseEvent): void => { // попробовать одну функцию
+        if (won || lost) return
+
+        if (e.type === 'mousedown') {
+            setFace(Face.oh)
+        } else if (e.type === 'mouseup') {
+            setFace(Face.smile)
+        }
     }
 
     const renderCells = (): React.ReactNode => {
@@ -172,6 +165,7 @@ const Minesweeper: React.FC = () => {
                 value={cell.value}
                 onClick={handleCellClick}
                 onContext={handleCellContext}
+                toggleMouseClick={toggleMouseClick}
             />
         )))
     }
