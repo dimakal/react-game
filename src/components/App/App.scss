@@ -3,7 +3,7 @@
 .Minesweeper {
   @include borders(4px, solid, white, #999);
   background: #c2c2c2;
-  padding: 16px;
+  padding: 16px 16px 0 16px;
 }
 
 .header {
@@ -19,8 +19,21 @@
   @include borders(4px, solid, #7b7b7b, white);
   margin-top: 16px;
   display: grid;
-  grid-template-rows: repeat(9, 1fr);
-  grid-template-columns: repeat(9, 1fr);
+
+  &.difficult_easy {
+    grid-template-rows: repeat(9, 1fr);
+    grid-template-columns: repeat(9, 1fr);
+  }
+
+  &.difficult_normal {
+    grid-template-rows: repeat(16, 1fr);
+    grid-template-columns: repeat(16, 1fr);
+  }
+
+  &.difficult_hard {
+    grid-template-rows: repeat(16, 1fr);
+    grid-template-columns: repeat(30, 1fr);
+  }
 }
 
 .face {

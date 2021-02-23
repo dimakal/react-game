@@ -25,3 +25,9 @@ export enum Face {
     lost = '😵',
     won = '😎'
 }
+
+export enum Difficult {
+    easy,
+    normal,
+    hard
+}
