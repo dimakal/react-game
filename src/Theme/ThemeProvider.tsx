@@ -9,11 +9,21 @@ type ThemeContext = {
 export const ThemeContext = React.createContext<ThemeContext>({} as ThemeContext)
 
 export const ThemeProvider: React.FC = ({children}) => {
-
-    const [theme, setTheme] = useState<Theme>('light')
+    const localStorageTheme = localStorage.getItem('theme') as Theme
+    const [theme, setTheme] = useState<Theme>(localStorageTheme ? localStorageTheme : 'light')
 
     const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
+        let currentTheme
+
+        if (theme === 'light') {
+            setTheme('dark')
+            currentTheme = 'dark'
+        } else {
+            setTheme('light')
+            currentTheme = 'light'
+        }
+
+        localStorage.setItem('theme', currentTheme)
     }
 
     const color = theme === 'light' ? '#000' : '#fff'
