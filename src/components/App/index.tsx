@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import './App.scss'
 import NumberDisplay from "../NumberDisplay";
-import {generateCells, openMultipleCells, placeBombs} from "../../utils";
+import {generateCells, openMultipleCells} from "../../utils";
 import Button from "../Button";
 import {Cell, CellState, CellValue, Difficult, Face} from '../../types/index'
 import {
@@ -16,6 +16,7 @@ import {
     NUMBER_OF_BOMBS_NORMAL
 } from "../../constants";
 import DifficultChanger from "../DifficultChanger";
+import ThemeSwitcher from "../ThemeSwitcher";
 
 const Minesweeper: React.FC = () => {
     const [maxRows, setMaxRows] = useState<number>(MAX_ROWS_EASY)
@@ -27,7 +28,7 @@ const Minesweeper: React.FC = () => {
     const [started, setStarted] = useState<boolean>(false)
     const [lost, setLost] = useState<boolean>(false)
     const [won, setWon] = useState<boolean>(false)
-    const [difficultLevel, setDifficultLevel] = useState<Difficult>(Difficult.easy)
+    const [difficultLevel, setDifficultLevel] = useState('easy')
 
     useEffect(() => {
         if (started && time < 999) {
@@ -203,28 +204,28 @@ const Minesweeper: React.FC = () => {
         )
     }
 
-    const onChangeDifficult = (level: Difficult): void => {
+    const onChangeDifficult = (level: string): void => {
         setFace(Face.smile)
         setTime(0)
         setWon(false)
         setLost(false)
 
-        if (level === Difficult.easy) {
-            setDifficultLevel(Difficult.easy)
+        if (level === 'easy') {
+            setDifficultLevel('easy')
             setMaxRows(MAX_ROWS_EASY)
             setMaxCols(MAX_COLS_EASY)
             setBombCounter(NUMBER_OF_BOMBS_EASY)
             setCells(generateCells(MAX_ROWS_EASY, MAX_COLS_EASY, NUMBER_OF_BOMBS_EASY))
         }
-        if (level === Difficult.normal) {
-            setDifficultLevel(Difficult.normal)
+        if (level === 'normal') {
+            setDifficultLevel('normal')
             setMaxRows(MAX_ROWS_NORMAL)
             setMaxCols(MAX_COLS_NORMAL)
             setBombCounter(NUMBER_OF_BOMBS_NORMAL)
             setCells(generateCells(MAX_ROWS_NORMAL, MAX_COLS_NORMAL, NUMBER_OF_BOMBS_NORMAL))
         }
-        if (level === Difficult.hard) {
-            setDifficultLevel(Difficult.hard)
+        if (level === 'hard') {
+            setDifficultLevel('hard')
             setMaxRows(MAX_ROWS_HARD)
             setMaxCols(MAX_COLS_HARD)
             setBombCounter(NUMBER_OF_BOMBS_HARD)
@@ -234,6 +235,7 @@ const Minesweeper: React.FC = () => {
 
     return (
         <div className={`Minesweeper`}>
+            <ThemeSwitcher />
             <div className={"header"}>
                 <NumberDisplay value={bombCounter}/>
                 <div className={'face'} onClick={handleFaceClick} onMouseDown={toggleMouseClick()}>
@@ -241,7 +243,7 @@ const Minesweeper: React.FC = () => {
                 </div>
                 <NumberDisplay value={time}/>
             </div>
-            <div className={`body  ${difficultLevel === Difficult.easy ? 'difficult_easy' : ''}  ${difficultLevel === Difficult.normal ? 'difficult_normal' : ''}   ${difficultLevel === Difficult.hard ? 'difficult_hard' : ''} `}> {renderCells()} </div>
+            <div className={`body  ${difficultLevel === 'easy' ? 'difficult_easy' : ''}  ${difficultLevel === 'normal' ? 'difficult_normal' : ''}   ${difficultLevel === 'hard' ? 'difficult_hard' : ''} `}> {renderCells()} </div>
             <div className={'difficult'}>
                <DifficultChanger onChangeDifficult={onChangeDifficult} isGameStarted={started} />
             </div>
