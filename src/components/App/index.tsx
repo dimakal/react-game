@@ -17,8 +17,10 @@ import {
 } from "../../constants";
 import DifficultChanger from "../DifficultChanger";
 import ThemeSwitcher from "../ThemeSwitcher";
+import SoundButtons from "../SoundButtons";
 
 const Minesweeper: React.FC = () => {
+    const [initialized, setInitialized] = useState<boolean>(false)
     const [maxRows, setMaxRows] = useState<number>(MAX_ROWS_EASY)
     const [maxCols, setMaxCols] = useState<number>(MAX_COLS_EASY)
     const [bombCounter, setBombCounter] = useState<number>(NUMBER_OF_BOMBS_EASY)
@@ -233,8 +235,20 @@ const Minesweeper: React.FC = () => {
         }
     }
 
+    if (!initialized) {
+        return (
+            <div className={'introScreen'}>
+            {/*<div className={'introScreen'} style={ {backgroundImage: `url(${startScreenBackground})`} }>*/}
+                <button onClick={() => setInitialized(true)}>
+                    PLAY
+                </button>
+            </div>
+        )
+    }
+
     return (
         <div className={`Minesweeper`}>
+            <SoundButtons isAppInit={initialized} />
             <ThemeSwitcher />
             <div className={"header"}>
                 <NumberDisplay value={bombCounter}/>

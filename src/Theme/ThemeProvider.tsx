@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 type Theme = 'light' | 'dark'
 type ThemeContext = {
@@ -11,6 +11,14 @@ export const ThemeContext = React.createContext<ThemeContext>({} as ThemeContext
 export const ThemeProvider: React.FC = ({children}) => {
     const localStorageTheme = localStorage.getItem('theme') as Theme
     const [theme, setTheme] = useState<Theme>(localStorageTheme ? localStorageTheme : 'light')
+
+    useEffect(() => {
+        if (theme === 'light') {
+            document.body.className = 'theme-light'
+        } else {
+            document.body.className = 'theme-dark'
+        }
+    }, [theme])
 
     const toggleTheme = () => {
         let currentTheme
@@ -25,12 +33,6 @@ export const ThemeProvider: React.FC = ({children}) => {
 
         localStorage.setItem('theme', currentTheme)
     }
-
-    const color = theme === 'light' ? '#000' : '#fff'
-    const background = theme === 'light' ? '#a0ffeb' : '#333'
-
-    document.body.style.color = color
-    document.body.style.backgroundColor = background
 
     return (
         <ThemeContext.Provider value={{theme, toggleTheme}} >

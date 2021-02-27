@@ -33,3 +33,17 @@
     }
   }
 }
+
+.theme-light {
+  .themeSwitcher {
+    background: #333;
+    color: #fff;
+  }
+}
+
+.theme-dark {
+  .themeSwitcher {
+    background: #fff;
+    color: #333;
+  }
+}

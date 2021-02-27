@@ -15,6 +15,15 @@ body {
   align-items: center;
   height: 100vh;
 
+  &.theme-light {
+    background: #a0ffeb;
+    color: #000;
+  }
+
+  &.theme-dark {
+    background: #333333;
+    color: #fff;
+  }
 }
 
 code {

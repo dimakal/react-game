@@ -7,7 +7,7 @@ const ThemeSwitcher: React.FC = () => {
     const {theme, toggleTheme} = useContext(ThemeContext)
 
     return (
-        <label className={'themeSwitcher'} style={theme === 'light' ? {background: '#333', color: '#fff'} : {background: '#fff', color: '#000'}}>
+        <label className={'themeSwitcher'}>
             {theme.charAt(0).toUpperCase() + theme.slice(1)} theme
             <div className="wrapper">
                 <div className={`btn ${theme === 'light' ? 'on' : 'off'}`} />

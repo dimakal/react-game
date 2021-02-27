@@ -1,0 +1,54 @@
+.soundButtons {
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  padding: 10px;
+  border-radius: 10px;
+  width: 240px;
+
+  .slider, .mute {
+    cursor: pointer;
+  }
+
+  .volume {
+    margin-bottom: 10px;
+
+    &.disabled {
+      opacity: 0.8;
+      pointer-events: none;
+    }
+  }
+
+  button {
+    background: none;
+    cursor: pointer;
+    border: none;
+    font-size: 22px;
+    outline: none;
+
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+
+  .playButtons {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}
+
+
+
+.theme-light {
+  .soundButtons {
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+  }
+}
+
+.theme-dark {
+  .soundButtons {
+    background: #fff;
+    color: #333;
+  }
+}
