@@ -1,4 +1,5 @@
 import {Cell, CellState, CellValue} from "../types";
+import React from "react";
 
 const grabAllAdjacentCells = (cells: Cell[][], rowParam: number, colParam: number, maxRows: number, maxCols: number): {
     topLeftCell: Cell | null,
@@ -33,6 +34,20 @@ const grabAllAdjacentCells = (cells: Cell[][], rowParam: number, colParam: numbe
 
 // randomly put bombs
 export const placeBombs = (cells: Cell[][], numberOfBombs: number, currentBombsNumber: number, maxRows: number, maxCols: number) => {
+
+    // for (let i = currentBombsNumber; currentBombsNumber <= numberOfBombs; i++) {
+    //     const randomRow = Math.floor(Math.random() * maxRows)
+    //     const randomColumn = Math.floor(Math.random() * maxCols)
+    //     const currentCell = cells[randomRow][randomColumn]
+    //
+    //     if (currentCell.value !== CellValue.bomb) {
+    //         debugger
+    //         cells[randomRow][randomColumn] = {
+    //             ...cells[randomRow][randomColumn], value: CellValue.bomb
+    //         }
+    //     }
+    // }
+
     while (currentBombsNumber < numberOfBombs) {
         const randomRow = Math.floor(Math.random() * maxRows)
         const randomColumn = Math.floor(Math.random() * maxCols)
@@ -41,14 +56,14 @@ export const placeBombs = (cells: Cell[][], numberOfBombs: number, currentBombsN
             cells[randomRow][randomColumn] = {
                 ...cells[randomRow][randomColumn], value: CellValue.bomb
             }
+            currentBombsNumber++
         }
-        currentBombsNumber++
     }
 }
 
 export const generateCells = (maxRows: number, maxCols: number, numberOfBombs: number): Cell[][] => {
     let cells: Cell[][] = []
-
+    console.log('generatecells')
     // generating all cells
     for (let row = 0; row < maxRows; row++) {
         cells.push([])
