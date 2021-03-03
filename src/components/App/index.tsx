@@ -1,9 +1,9 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import './App.scss'
 import NumberDisplay from "../NumberDisplay";
 import {generateCells, openMultipleCells} from "../../utils";
 import Button from "../Button";
-import {Cell, CellState, CellValue, Difficult, Face} from '../../types'
+import {Cell, CellState, CellValue, Face} from '../../types'
 import {
     MAX_COLS_EASY,
     MAX_COLS_HARD,
@@ -20,22 +20,17 @@ import ThemeSwitcher from "../ThemeSwitcher";
 import SoundButtons from "../SoundButtons";
 
 const Minesweeper: React.FC = () => {
-
     const [initialized, setInitialized] = useState<boolean>(false)
     const [maxRows, setMaxRows] = useState<number>(MAX_ROWS_EASY)
     const [maxCols, setMaxCols] = useState<number>(MAX_COLS_EASY)
     const [bombCounter, setBombCounter] = useState<number>(NUMBER_OF_BOMBS_EASY)
-
-    const initialCells = useMemo(() => generateCells(maxRows, maxCols, NUMBER_OF_BOMBS_EASY), [] )
-
-    const [cells, setCells] = useState<Cell[][]>(initialCells)
-    // const [cells, setCells] = useState<Cell[][]>(generateCells(maxRows, maxCols, NUMBER_OF_BOMBS_EASY))
+    const [cells, setCells] = useState<Cell[][]>(generateCells(maxRows, maxCols, NUMBER_OF_BOMBS_EASY))
     const [face, setFace] = useState<Face>(Face.smile)
     const [time, setTime] = useState<number>(0)
     const [started, setStarted] = useState<boolean>(false)
     const [lost, setLost] = useState<boolean>(false)
     const [won, setWon] = useState<boolean>(false)
-    const [difficultLevel, setDifficultLevel] = useState<Difficult>(Difficult.easy)
+    const [difficultLevel, setDifficultLevel] = useState('easy')
 
     useEffect(() => {
         if (started && time < 999) {
@@ -64,7 +59,7 @@ const Minesweeper: React.FC = () => {
     }, [won])
 
     const handleCellClick = (rowParam: number, colParam: number) => (): void => {
-        console.log('handleCellClick')
+
         if (won || lost) {
             return
         }
@@ -134,8 +129,8 @@ const Minesweeper: React.FC = () => {
     }
 
     const handleCellContext = (rowParam: number, colParam: number) => (e: React.MouseEvent): void => {
-        console.log('handleCellContext')
         e.preventDefault()
+
         if (!started) {
             return
         }
@@ -157,7 +152,6 @@ const Minesweeper: React.FC = () => {
     }
 
     const handleFaceClick = (): void => {
-        console.log('handleFaceClick')
         setStarted(false)
         setTime(0)
         setCells(generateCells(maxRows, maxCols, bombCounter))
@@ -168,7 +162,6 @@ const Minesweeper: React.FC = () => {
     }
 
     const toggleMouseClick = () => (e: React.MouseEvent): void => {
-        console.log('toggleMouseClick')
         if (won || lost) {
             if (e.currentTarget.className !== "face") {
                 return
@@ -182,7 +175,8 @@ const Minesweeper: React.FC = () => {
         }
     }
 
-    const renderedCells = useMemo(() => cells.map((row, rowIndex) => row.map((cell, colIndex) => (
+    const renderCells = (): React.ReactNode => {
+        return cells.map((row, rowIndex) => row.map((cell, colIndex) => (
             <Button
                 key={`${rowIndex} - ${colIndex}`}
                 row={rowIndex}
@@ -195,10 +189,9 @@ const Minesweeper: React.FC = () => {
                 toggleMouseClick={toggleMouseClick}
             />
         )))
-    , [started, won, lost, difficultLevel])
+    }
 
     const showAllBombs = (): Cell[][] => {
-        console.log('showAllBombs')
         const currentCells = cells.slice()
         return currentCells.map(row =>
             row.map(cell => {
@@ -213,28 +206,29 @@ const Minesweeper: React.FC = () => {
         )
     }
 
-    const onChangeDifficult = (level: Difficult): void => {
+    const onChangeDifficult = (level: string): void => {
+        console.log('onChangeDifficult')
         setFace(Face.smile)
         setTime(0)
         setWon(false)
         setLost(false)
 
-        if (level === Difficult.easy) {
-            setDifficultLevel(Difficult.easy)
+        if (level === 'easy') {
+            setDifficultLevel('easy')
             setMaxRows(MAX_ROWS_EASY)
             setMaxCols(MAX_COLS_EASY)
             setBombCounter(NUMBER_OF_BOMBS_EASY)
             setCells(generateCells(MAX_ROWS_EASY, MAX_COLS_EASY, NUMBER_OF_BOMBS_EASY))
         }
-        if (level === Difficult.normal) {
-            setDifficultLevel(Difficult.normal)
+        if (level === 'normal') {
+            setDifficultLevel('normal')
             setMaxRows(MAX_ROWS_NORMAL)
             setMaxCols(MAX_COLS_NORMAL)
             setBombCounter(NUMBER_OF_BOMBS_NORMAL)
             setCells(generateCells(MAX_ROWS_NORMAL, MAX_COLS_NORMAL, NUMBER_OF_BOMBS_NORMAL))
         }
-        if (level === Difficult.hard) {
-            setDifficultLevel(Difficult.hard)
+        if (level === 'hard') {
+            setDifficultLevel('hard')
             setMaxRows(MAX_ROWS_HARD)
             setMaxCols(MAX_COLS_HARD)
             setBombCounter(NUMBER_OF_BOMBS_HARD)
@@ -245,6 +239,7 @@ const Minesweeper: React.FC = () => {
     if (!initialized) {
         return (
             <div className={'introScreen'}>
+                {/*<div className={'introScreen'} style={ {backgroundImage: `url(${startScreenBackground})`} }>*/}
                 <button onClick={() => setInitialized(true)}>
                     PLAY
                 </button>
@@ -253,7 +248,7 @@ const Minesweeper: React.FC = () => {
     }
 
     return (
-        <div className={`Minesweeper ${lost && 'lost'}`}>
+        <div className={`Minesweeper`}>
             <SoundButtons isAppInit={initialized}/>
             <ThemeSwitcher/>
             <div className={"header"}>
@@ -264,11 +259,11 @@ const Minesweeper: React.FC = () => {
                 <NumberDisplay value={time}/>
             </div>
             <div
-                className={`body  ${difficultLevel === Difficult.easy ? 'difficult_easy' : ''}  ${difficultLevel === Difficult.normal ? 'difficult_normal' : ''}   ${difficultLevel === Difficult.hard ? 'difficult_hard' : ''} `}>
+                className={`body  ${difficultLevel === 'easy' ? 'difficult_easy' : ''}  ${difficultLevel === 'normal' ? 'difficult_normal' : ''}   ${difficultLevel === 'hard' ? 'difficult_hard' : ''} `}>
                 {renderedCells}
             </div>
             <div className={'difficult'}>
-                <DifficultChanger onChangeDifficult={onChangeDifficult} isGameStarted={started}/>
+               <DifficultChanger onChangeDifficult={onChangeDifficult} isGameStarted={started} />
             </div>
         </div>
     )
