@@ -130,6 +130,7 @@ const Minesweeper: React.FC = () => {
                 })
             );
             setWon(true);
+            setBombCounter(0)
         }
 
         setCells(newCells);
@@ -251,7 +252,6 @@ const Minesweeper: React.FC = () => {
     if (!initialized) {
         return (
             <div className={'introScreen'}>
-                {/*<div className={'introScreen'} style={ {backgroundImage: `url(${startScreenBackground})`} }>*/}
                 <button onClick={() => setInitialized(true)}>
                     PLAY
                 </button>
@@ -260,7 +260,7 @@ const Minesweeper: React.FC = () => {
     }
 
     return (
-        <div className={`Minesweeper`}>
+        <div className={`Minesweeper ${!started && 'not-started'}`}>
             <SoundButtons isAppInit={initialized}/>
             <ThemeSwitcher/>
             <div className={"header"}>
