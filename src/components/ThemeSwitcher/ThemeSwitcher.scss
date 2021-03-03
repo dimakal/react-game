@@ -1,0 +1,49 @@
+.themeSwitcher {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  padding: 5px 10px;
+  border-radius: 10px;
+
+  .wrapper {
+    background: #868686;
+    width: 56px;
+    margin: auto;
+    padding: 3px;
+    border-radius: 10px;
+  }
+
+  .btn {
+    width: 15px;
+    height: 15px;
+    background: #333;
+    border-radius: 50%;
+    transition-duration: .3s;
+    position: relative;
+    margin: auto;
+
+    &.on {
+      //left: 15px;
+      transform: translateX(15px);
+    }
+
+    &.off {
+      //right: 15px;
+      transform: translateX(-15px);
+    }
+  }
+}
+
+.theme-light {
+  .themeSwitcher {
+    background: #333;
+    color: #fff;
+  }
+}
+
+.theme-dark {
+  .themeSwitcher {
+    background: #fff;
+    color: #333;
+  }
+}

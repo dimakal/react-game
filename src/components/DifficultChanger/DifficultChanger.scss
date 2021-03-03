@@ -1,0 +1,15 @@
+@import '../../styles/mixins';
+
+.difficultChanger {
+  button {
+    @include borders;
+    @include buttons;
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 2px 0;
+    margin: 7px 0;
+    outline: none;
+    cursor: pointer;
+  }
+}
