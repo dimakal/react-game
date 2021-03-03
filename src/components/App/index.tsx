@@ -66,7 +66,6 @@ const Minesweeper: React.FC = () => {
     }, [won])
 
     const handleCellClick = (rowParam: number, colParam: number) => (): void => {
-        console.log('handleCellClick')
         if (won || lost) {
             return
         }
@@ -137,7 +136,6 @@ const Minesweeper: React.FC = () => {
     }
 
     const handleCellContext = (rowParam: number, colParam: number) => (e: React.MouseEvent): void => {
-        console.log('handleCellContext')
         e.preventDefault()
         if (!started) {
             return
@@ -160,7 +158,6 @@ const Minesweeper: React.FC = () => {
     }
 
     const handleFaceClick = (): void => {
-        console.log('handleFaceClick')
         setStarted(false)
         setTime(0)
         setBombCounter(currentBombsCounter)
@@ -171,7 +168,6 @@ const Minesweeper: React.FC = () => {
     }
 
     const toggleMouseClick = () => (e: React.MouseEvent): void => {
-        console.log('toggleMouseClick')
         if (won || lost) {
             if (e.currentTarget.className !== "face") {
                 return
@@ -201,7 +197,6 @@ const Minesweeper: React.FC = () => {
     , [started, won, lost, difficultLevel, cells])
 
     const showAllBombs = (): Cell[][] => {
-        console.log('showAllBombs')
         const currentCells = cells.slice()
         return currentCells.map(row =>
             row.map(cell => {
@@ -217,7 +212,6 @@ const Minesweeper: React.FC = () => {
     }
 
     const onChangeDifficult = (level: Difficult): void => {
-        console.log('onChangeDifficult')
         setFace(Face.smile)
         setTime(0)
         setWon(false)
