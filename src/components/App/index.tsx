@@ -37,6 +37,8 @@ const Minesweeper: React.FC = () => {
     const [won, setWon] = useState<boolean>(false)
     const [difficultLevel, setDifficultLevel] = useState<Difficult>(Difficult.easy)
 
+    const [currentBombsCounter, setCurrentBombsCounter] = useState<number>(NUMBER_OF_BOMBS_EASY)
+
     useEffect(() => {
         if (started && time < 999) {
             const timer = setInterval(() => {
@@ -160,8 +162,8 @@ const Minesweeper: React.FC = () => {
         console.log('handleFaceClick')
         setStarted(false)
         setTime(0)
-        setCells(generateCells(maxRows, maxCols, bombCounter))
-        setBombCounter(bombCounter)
+        setBombCounter(currentBombsCounter)
+        setCells(generateCells(maxRows, maxCols, currentBombsCounter))
         setFace(Face.smile)
         setLost(false)
         setWon(false)
@@ -195,7 +197,7 @@ const Minesweeper: React.FC = () => {
                 toggleMouseClick={toggleMouseClick}
             />
         )))
-    , [started, won, lost, difficultLevel])
+    , [started, won, lost, difficultLevel, cells])
 
     const showAllBombs = (): Cell[][] => {
         console.log('showAllBombs')
@@ -214,6 +216,7 @@ const Minesweeper: React.FC = () => {
     }
 
     const onChangeDifficult = (level: Difficult): void => {
+        console.log('onChangeDifficult')
         setFace(Face.smile)
         setTime(0)
         setWon(false)
@@ -224,6 +227,7 @@ const Minesweeper: React.FC = () => {
             setMaxRows(MAX_ROWS_EASY)
             setMaxCols(MAX_COLS_EASY)
             setBombCounter(NUMBER_OF_BOMBS_EASY)
+            setCurrentBombsCounter(NUMBER_OF_BOMBS_EASY)
             setCells(generateCells(MAX_ROWS_EASY, MAX_COLS_EASY, NUMBER_OF_BOMBS_EASY))
         }
         if (level === Difficult.normal) {
@@ -231,6 +235,7 @@ const Minesweeper: React.FC = () => {
             setMaxRows(MAX_ROWS_NORMAL)
             setMaxCols(MAX_COLS_NORMAL)
             setBombCounter(NUMBER_OF_BOMBS_NORMAL)
+            setCurrentBombsCounter(NUMBER_OF_BOMBS_NORMAL)
             setCells(generateCells(MAX_ROWS_NORMAL, MAX_COLS_NORMAL, NUMBER_OF_BOMBS_NORMAL))
         }
         if (level === Difficult.hard) {
@@ -238,6 +243,7 @@ const Minesweeper: React.FC = () => {
             setMaxRows(MAX_ROWS_HARD)
             setMaxCols(MAX_COLS_HARD)
             setBombCounter(NUMBER_OF_BOMBS_HARD)
+            setCurrentBombsCounter(NUMBER_OF_BOMBS_HARD)
             setCells(generateCells(MAX_ROWS_HARD, MAX_COLS_HARD, NUMBER_OF_BOMBS_HARD))
         }
     }
@@ -245,6 +251,7 @@ const Minesweeper: React.FC = () => {
     if (!initialized) {
         return (
             <div className={'introScreen'}>
+                {/*<div className={'introScreen'} style={ {backgroundImage: `url(${startScreenBackground})`} }>*/}
                 <button onClick={() => setInitialized(true)}>
                     PLAY
                 </button>
@@ -253,7 +260,7 @@ const Minesweeper: React.FC = () => {
     }
 
     return (
-        <div className={`Minesweeper ${lost && 'lost'}`}>
+        <div className={`Minesweeper`}>
             <SoundButtons isAppInit={initialized}/>
             <ThemeSwitcher/>
             <div className={"header"}>
