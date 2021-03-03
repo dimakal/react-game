@@ -4,6 +4,12 @@
   @include borders(4px, solid, white, #999);
   background: #c2c2c2;
   padding: 16px 16px 0 16px;
+
+  &.lost {
+    .button:not(.visible):active {
+      @include borders;
+    }
+  }
 }
 
 .header {

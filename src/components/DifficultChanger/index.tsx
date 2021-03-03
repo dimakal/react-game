@@ -1,8 +1,9 @@
 import React from "react"
 import './DifficultChanger.scss'
+import {Difficult} from "../../types";
 
 interface DifficultChangerProps {
-    onChangeDifficult: (level: string) => void,
+    onChangeDifficult: (level: Difficult) => void,
     isGameStarted: boolean
 
 }
@@ -11,9 +12,9 @@ const DifficultChanger: React.FC<DifficultChangerProps> = ({onChangeDifficult, i
 
     return (
         <div className={'difficultChanger'}>
-            <button disabled={isGameStarted} onClick={() => onChangeDifficult('easy')}> Easy </button>
-            <button disabled={isGameStarted} onClick={() => onChangeDifficult('normal')}> Normal </button>
-            <button disabled={isGameStarted} onClick={() => onChangeDifficult('hard')}> Hard </button>
+            <button disabled={isGameStarted} onClick={() => onChangeDifficult(Difficult.easy)}> Easy </button>
+            <button disabled={isGameStarted} onClick={() => onChangeDifficult(Difficult.normal)}> Normal </button>
+            <button disabled={isGameStarted} onClick={() => onChangeDifficult(Difficult.hard)}> Hard </button>
         </div>
     )
 }
