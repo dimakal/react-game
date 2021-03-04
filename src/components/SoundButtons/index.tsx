@@ -45,7 +45,7 @@ const SoundButtons: React.FC<SoundButtonsProps> = ({isAppInit}) => {
 
             <div className={`volume ${mute ? 'disabled' : ''}`} >
                 <label>
-                    Volume:
+                    Volume: <br/>
                     <span className='slider-container'>
                       <input className={'slider'}
                           disabled={mute}

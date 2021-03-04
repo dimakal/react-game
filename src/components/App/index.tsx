@@ -254,7 +254,7 @@ const Minesweeper: React.FC = () => {
     }
 
     return (
-        <div className={`Minesweeper ${!started && 'not-started'}`}>
+        <div className={`Minesweeper ${!started ? 'not-started' : ''}`}>
             <SoundButtons isAppInit={initialized}/>
             <ThemeSwitcher/>
             <div className={"header"}>

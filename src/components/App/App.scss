@@ -20,6 +20,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (min-width: 499px) and (max-width: 1025px) {
+    justify-content: space-evenly;
+  }
 }
 
 .body {

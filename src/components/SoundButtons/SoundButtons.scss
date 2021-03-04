@@ -1,17 +1,15 @@
 .soundButtons {
+
   position: absolute;
   left: 50px;
   top: 50px;
-  padding: 10px;
+  padding: 7px;
   border-radius: 10px;
-  width: 240px;
-
-  .slider, .mute {
-    cursor: pointer;
-  }
+  width: 180px;
+  text-align: center;
 
   .volume {
-    margin-bottom: 10px;
+    margin: 5px 0;
 
     &.disabled {
       opacity: 0.8;
@@ -34,6 +32,25 @@
   .playButtons {
     margin-bottom: 15px;
     text-align: center;
+  }
+
+  @media (min-width: 499px) and (max-width: 1025px) {
+    top: 5px;
+    left: 5px;
+    padding: 5px;
+    width: auto;
+
+    & .volume, & .mute {
+      display: none;
+    }
+
+    & .playButtons {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .slider, .mute {
+    cursor: pointer;
   }
 }
 
